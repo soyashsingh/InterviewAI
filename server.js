@@ -9,8 +9,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static("public"));
-app.get("/", (req, res) => {
-  res.redirect("/index.html");
+ app.get("/", (req, res) => {
+  res.sendFile(require("path").join(__dirname, "public", "index.html"));
 });
 
 const ai = new GoogleGenAI({
