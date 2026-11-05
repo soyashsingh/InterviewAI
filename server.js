@@ -5,10 +5,10 @@ const express = require("express");
 const { GoogleGenAI } = require("@google/genai");
 
 const app = express();
-const PORT = 3000;
+ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static("public"));
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,

@@ -1,0 +1,1778 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterviewAI — Master Your Next Interview</title>
+<style>
+:root {
+  --bg:#080b14;
+  --panel:#101624;
+  --panel2:#141d2e;
+  --border:#243149;
+  --text:#f1f5ff;
+  --muted:#95a2ba;
+  --cyan:#45d9ff;
+  --blue:#647cff;
+  --green:#56e6b0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  min-height:100vh;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:3px
+}
+.nav{
+  height:76px;padding:0 6%;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid #ffffff10;
+  position:sticky;top:0;background:#080b14ed;backdrop-filter:blur(16px);
+  z-index:5
+}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:22px}
+.brand-icon{
+  width:39px;height:39px;border-radius:12px;
+  display:grid;place-items:center;background:linear-gradient(135deg,#45d9ff,#647cff);
+  color:#07101c;font-size:22px;box-shadow:0 0 25px #45d9ff25
+}
+.brand span{color:var(--cyan)}
+.nav-right{display:flex;align-items:center;gap:20px}
+.status{font-size:12px;color:var(--muted)}
+.status:before{content:"";display:inline-block;width:7px;height:7px;
+  background:var(--green);border-radius:50%;margin-right:8px}
+.btn{
+  border:1px solid var(--border);background:var(--panel2);color:var(--text);
+  border-radius:10px;padding:12px 17px;font-weight:650;transition:.2s
+}
+.btn:hover{border-color:var(--cyan);transform:translateY(-1px)}
+.btn-primary{
+  border:0;background:linear-gradient(110deg,#45d9ff,#7c8bff);
+  color:#07101b;font-weight:800
+}
+.btn-primary:hover{box-shadow:0 0 25px #45d9ff28}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+main{max-width:1200px;width:92%;margin:0 auto}
+.hero{padding:64px 0 38px;position:relative}
+.eyebrow{
+  display:inline-flex;gap:8px;align-items:center;padding:8px 12px;
+  border:1px solid #45d9ff40;border-radius:30px;background:#45d9ff0b;
+  color:var(--cyan);font-size:12px;font-weight:700;letter-spacing:.6px
+}
+.hero h1{font-size:clamp(37px,6vw,66px);line-height:1.08;
+  letter-spacing:-2px;margin:23px 0 16px}
+.gradient-text{background:linear-gradient(90deg,#45d9ff,#a0a8ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:16px;line-height:1.8;max-width:680px}
+.hero-glow{
+  position:absolute;width:300px;height:220px;right:3%;top:50px;
+  background:#455fff14;filter:blur(70px);pointer-events:none
+}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.stat{padding:16px;background:#ffffff04;border:1px solid #ffffff0d;border-radius:13px}
+.stat strong{display:block;font-size:17px;margin-bottom:5px}
+.stat small{color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;
+  align-items:start;padding-bottom:70px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.panel-head{padding:23px 24px;border-bottom:1px solid #ffffff0d}
+.panel-head h2{font-size:19px;margin-bottom:7px}
+.panel-head p{font-size:13px;color:var(--muted);line-height:1.6}
+.panel-body{padding:24px}
+.section-label{font-size:13px;font-weight:750;margin-bottom:12px;display:block}
+.field{margin-bottom:25px}
+.field:last-child{margin-bottom:0}
+.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.option{
+  border:1px solid var(--border);background:#0b111e;border-radius:12px;
+  padding:14px 12px;text-align:left;color:var(--text);min-width:0;transition:.18s
+}
+.option:hover{border-color:#45d9ff88}
+.option.selected{border-color:var(--cyan);background:#45d9ff10;
+  box-shadow:inset 0 0 0 1px #45d9ff16}
+.option .symbol{font-size:21px;display:block;margin-bottom:10px}
+.option strong{font-size:13px;display:block;margin-bottom:5px}
+.option small{font-size:11px;color:var(--muted);line-height:1.5;display:block}
+.pills{display:flex;flex-wrap:wrap;gap:9px}
+.pill{
+  border:1px solid var(--border);background:#0b111e;color:var(--muted);
+  border-radius:9px;padding:10px 14px;font-size:13px
+}
+.pill.selected{color:var(--cyan);border-color:var(--cyan);background:#45d9ff10}
+.select{
+  width:100%;background:#0b111e;color:var(--text);border:1px solid var(--border);
+  padding:13px;border-radius:10px
+}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.upload{
+  display:block;border:1px dashed #40516c;border-radius:13px;padding:22px;
+  text-align:center;background:#0b111e;cursor:pointer;transition:.2s
+}
+.upload:hover{border-color:var(--cyan)}
+.upload .upload-icon{font-size:27px;margin-bottom:10px}
+.upload strong{display:block;font-size:13px;margin-bottom:6px}
+.upload small{color:var(--muted);font-size:11px;line-height:1.6}
+.upload input{display:none}
+.file-name{font-size:12px;color:var(--green);margin-top:10px;overflow-wrap:anywhere}
+.notice{font-size:11px;color:var(--muted);line-height:1.6;margin-top:10px}
+.start-row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:26px}
+.start-row small{color:var(--muted);font-size:11px}
+.start-btn{padding:15px 23px}
+.side{display:grid;gap:16px}
+.side .panel-body{padding:20px}
+.preview-card{
+  background:linear-gradient(145deg,#16263c,#101624 75%);
+  border:1px solid #31435e;border-radius:14px;padding:19px;margin-bottom:18px
+}
+.preview-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.ai-avatar{
+  width:44px;height:44px;display:grid;place-items:center;border-radius:13px;
+  background:linear-gradient(135deg,#45d9ff,#647cff);font-size:23px
+}
+.tag{font-size:10px;color:var(--green);border:1px solid #56e6b045;
+  padding:5px 8px;border-radius:20px}
+.preview-card h3{font-size:17px;margin-bottom:8px}
+.preview-card p{color:var(--muted);font-size:12px;line-height:1.7}
+.summary-list{display:grid;gap:15px}
+.summary-item{display:flex;justify-content:space-between;gap:12px;font-size:12px}
+.summary-item span:first-child{color:var(--muted)}
+.summary-item span:last-child{text-align:right;font-weight:650;overflow-wrap:anywhere}
+.summary-divider{height:1px;background:#ffffff0d;margin:2px 0}
+.tip{padding:15px;border-radius:12px;background:#45d9ff08;
+  border:1px solid #45d9ff20}
+.tip strong{font-size:12px;display:block;margin-bottom:7px;color:var(--cyan)}
+.tip p{font-size:11px;color:var(--muted);line-height:1.7}
+footer{border-top:1px solid #ffffff0d;padding:25px 5%;text-align:center;
+  color:var(--muted);font-size:12px}
+.modal-backdrop{
+  position:fixed;inset:0;background:#000b;backdrop-filter:blur(7px);
+  display:none;align-items:center;justify-content:center;padding:18px;z-index:10
+}
+.modal-backdrop.open{display:flex}
+.modal{max-width:540px;width:100%;background:var(--panel);
+  border:1px solid var(--border);border-radius:18px;padding:25px}
+.modal h2{margin-bottom:10px;font-size:22px}
+.modal p{color:var(--muted);font-size:13px;line-height:1.8}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .side{grid-template-columns:1fr 1fr}
+  .hero-glow{right:0}
+}
+@media(max-width:600px){
+  .nav{height:65px;padding:0 4%}
+  .brand{font-size:19px}.brand-icon{width:34px;height:34px}
+  .nav-right{gap:8px}.status{display:none}
+  .nav .btn{padding:10px;font-size:12px}
+  main{width:92%}.hero{padding:44px 0 28px}
+  .hero h1{letter-spacing:-1.3px}
+  .stats{gap:8px}.stat{padding:12px 9px}.stat strong{font-size:14px}
+  .stat small{font-size:10px}
+  .panel-head,.panel-body{padding:18px}
+  .options{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two-col{grid-template-columns:1fr}
+  .side{grid-template-columns:1fr}
+  .start-row{align-items:stretch;flex-direction:column}
+  .start-btn{width:100%}
+}
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  #finalReport,
+  #finalReport * {
+    visibility: visible !important;
+  }
+
+  #finalReport {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+
+  #finalReport h1,
+  #finalReport h2,
+  #finalReport h3,
+  #finalReport p,
+  #finalReport div {
+    color: black !important;
+    break-inside: avoid;
+  }
+
+  #finalReport button {
+    display: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+}
+
+.report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.report-actions button {
+  min-height: 46px;
+  padding: 12px 20px;
+}
+
+@media (max-width: 600px) {
+  .report-actions button {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="brand">
+     <span>Interview AI</span>
+  <div class="nav-right">
+    <span class="status">Your AI practice studio</span>
+    <button class="btn" id="topStart">Configure interview ↗</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="eyebrow">✦ YOUR PERSONAL AI INTERVIEW COACH</div>
+    <h1>Prepare smarter.<br><span class="gradient-text">Interview better.</span></h1>
+    <p>Practice role-specific interviews, answer challenging questions and discover where you can improve. Build confidence one interview at a time.</p>
+    <div class="stats">
+      <div class="stat"><strong>AI-powered</strong><small>Dynamic question practice</small></div>
+      <div class="stat"><strong>Personalized</strong><small>Choose your role and level</small></div>
+      <div class="stat"><strong>Feedback-ready</strong><small>Review answers and improve</small></div>
+    </div>
+  </section>
+
+  <section class="layout" id="setup">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Set up your interview</h2>
+        <p>Customize your practice session before you begin.</p>
+      </div>
+      <div class="panel-body">
+        <div class="field">
+          <label class="section-label">01 / Choose your career role</label>
+          <div class="options" id="roles">
+            <button class="option selected" data-value="Frontend Developer"><span class="symbol">⌘</span><strong>Frontend Developer</strong><small>HTML, CSS, JavaScript, React</small></button>
+            <button class="option" data-value="Backend Developer"><span class="symbol">⚙</span><strong>Backend Developer</strong><small>APIs, servers, databases</small></button>
+            <button class="option" data-value="Full Stack Developer"><span class="symbol">◇</span><strong>Full Stack Developer</strong><small>Frontend and backend</small></button>
+            <button class="option" data-value="Data Analyst"><span class="symbol">▥</span><strong>Data Analyst</strong><small>SQL, data and insights</small></button>
+            <button class="option" data-value="Java Developer"><span class="symbol">☕</span><strong>Java Developer</strong><small>Java, OOP and projects</small></button>
+            <button class="option" data-value="Python Developer"><span class="symbol">🐍</span><strong>Python Developer</strong><small>Python and problem solving</small></button>
+            <button class="option" data-value="HR / Non-Technical"><span class="symbol">♧</span><strong>HR / Non-Technical</strong><small>Behavioral and HR questions</small></button>
+            <button class="option" data-value="Custom Role"><span class="symbol">＋</span><strong>Other role</strong><small>Choose a custom job title</small></button>
+          </div>
+          <div id="customRoleWrap" style="display:none;margin-top:12px">
+            <input class="select" id="customRole" maxlength="80" placeholder="Enter your job role">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="section-label">02 / Experience level</label>
+          <div class="options" id="levels">
+            <button class="option selected" data-value="Beginner"><span class="symbol">🌱</span><strong>Beginner</strong><small>Learning the fundamentals</small></button>
+            <button class="option" data-value="Intermediate"><span class="symbol">⚡</span><strong>Intermediate</strong><small>Some practical experience</small></button>
+            <button class="option" data-value="Advanced"><span class="symbol">🚀</span><strong>Advanced</strong><small>Challenging scenarios</small></button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="section-label">03 / Interview type</label>
+          <div class="options" id="types">
+            <button class="option selected" data-value="Technical"><span class="symbol">⌘</span><strong>Technical</strong><small>Knowledge and concepts</small></button>
+            <button class="option" data-value="Coding"><span class="symbol">⟨/⟩</span><strong>Coding</strong><small>Logic and code problems</small></button>
+            <button class="option" data-value="HR"><span class="symbol">♧</span><strong>HR Interview</strong><small>Behavior and experience</small></button>
+            <button class="option" data-value="Situational"><span class="symbol">◈</span><strong>Situational</strong><small>Real-world scenarios</small></button>
+            <button class="option" data-value="Mixed"><span class="symbol">✦</span><strong>Mixed Interview</strong><small>A combination of topics</small></button>
+            <button class="option" data-value="Resume Based"><span class="symbol">▤</span><strong>Resume Based</strong><small>Questions about your profile</small></button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="section-label">04 / Interview language</label>
+          <div class="pills" id="languages">
+            <button class="pill selected" data-value="English">🇬🇧 English</button>
+            <button class="pill" data-value="Hindi">🇮🇳 हिंदी (Hindi)</button>
+            <button class="pill" data-value="Hinglish">🇮🇳 Hinglish</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="section-label">05 / Interview duration</label>
+          <div class="pills" id="durations">
+            <button class="pill" data-value="10 minutes">10 min</button>
+            <button class="pill selected" data-value="20 minutes">20 min</button>
+            <button class="pill" data-value="30 minutes">30 min</button>
+            <button class="pill" data-value="45 minutes">45 min</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="section-label">06 / AI interviewer persona</label>
+          <div class="options" id="personas">
+            <button class="option selected" data-value="HR Manager"><span class="symbol">👔</span><strong>HR Manager</strong><small>Professional and behavioral</small></button>
+            <button class="option" data-value="Senior Engineer"><span class="symbol">💻</span><strong>Senior Engineer</strong><small>Technical depth</small></button>
+            <button class="option" data-value="Technical Lead"><span class="symbol">🎯</span><strong>Technical Lead</strong><small>Design and problem solving</small></button>
+            <button class="option" data-value="Career Mentor"><span class="symbol">🧭</span><strong>Career Mentor</strong><small>Supportive practice</small></button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="section-label">07 / Resume (optional)</label>
+          <label class="upload" for="resume">
+            <div class="upload-icon">⇧</div>
+            <strong>Upload your resume</strong>
+            <small>Choose a PDF or DOCX file · Max 5 MB</small>
+            <input type="file" id="resume" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+            <div class="file-name" id="fileName"></div>
+          </label>
+          <p class="notice">This prototype only selects a file locally. Resume analysis will work after secure backend processing is implemented.</p>
+        </div>
+
+        <div class="field">
+          <label class="section-label">08 / Questions per interview</label>
+          
+<div class="pills" id="questionCounts">
+  <button class="pill" data-value="5">5 questions</button>
+  <button class="pill selected" data-value="10">10 questions</button>
+  <button class="pill" data-value="15">15 questions</button>
+  <button class="pill" data-value="20">20 questions</button>
+  <button class="pill" data-value="30">30 questions</button>
+  <button class="pill" data-value="40">40 questions</button>
+  <button class="pill" data-value="50">50 questions</button>
+  <button class="pill" data-value="60">60 questions</button>
+  <button class="pill" data-value="70">70 questions</button>
+  <button class="pill" data-value="80">80 questions</button>
+  <button class="pill" data-value="90">90 questions</button>
+  <button class="pill" data-value="100">100 questions</button>
+</div>
+
+             
+        </div>
+
+        <div class="start-row">
+          <small>✦ Your choices can be adjusted before starting.</small>
+          <button class="btn btn-primary start-btn" id="startInterview">Review my setup →</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Your session</h2>
+          <p>A quick summary of your selected settings.</p>
+        </div>
+        <div class="panel-body">
+          <div class="preview-card">
+            <div class="preview-top">
+               <div class="ai-avatar">IA</div>
+              <span class="tag">PRACTICE MODE</span>
+            </div>
+            <h3 id="previewTitle">Frontend Developer</h3>
+            <p id="previewDescription">Technical interview · Beginner level. Practice concepts and explain your reasoning.</p>
+          </div>
+          <div class="summary-list">
+            <div class="summary-item"><span>Role</span><span id="sumRole">Frontend Developer</span></div>
+            <div class="summary-item"><span>Level</span><span id="sumLevel">Beginner</span></div>
+            <div class="summary-item"><span>Interview type</span><span id="sumType">Technical</span></div>
+            <div class="summary-item"><span>Language</span><span id="sumLanguage">English</span></div>
+            <div class="summary-item"><span>Duration</span><span id="sumDuration">20 minutes</span></div>
+            <div class="summary-item"><span>AI persona</span><span id="sumPersona">HR Manager</span></div>
+            <div class="summary-item"><span>Questions</span><span id="sumQuestions">10</span></div>
+            <div class="summary-item"><span>Resume</span><span id="sumResume">Not added</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body">
+          <div class="tip">
+            <strong>✦ Interview tip</strong>
+            <p>Explain your reasoning, use examples where possible, and be honest when you don't know something. Clear thinking matters.</p>
+          </div>
+          <div style="margin-top:17px">
+            <div class="summary-item"><span>Question source</span><span>AI planned</span></div>
+            <div class="summary-divider" style="margin:13px 0"></div>
+            <div class="summary-item"><span>Performance report</span><span>Planned</span></div>
+            <div class="summary-divider" style="margin:13px 0"></div>
+            <div class="summary-item"><span>Voice interview</span><span>Planned</span></div>
+          </div>
+          <p class="notice">AI generation, live voice and scoring are not connected in this frontend prototype yet.</p>
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+
+<section id="interviewScreen" style="display:none; max-width:900px; width:92%; margin:30px auto; padding:28px; background:#101624; border:1px solid #243149; border-radius:18px; color:#f1f5ff;">
+  <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+    <span id="interviewRole" style="color:#45d9ff;">Frontend Developer</span>
+    <span id="questionCounter">Question 1 of 5</span>
+    <span id="interviewTimer" style="color:#45d9ff; font-weight:700;">
+  Time: 20:00
+</span>
+  </div>
+
+  <div style="height:7px; background:#243149; border-radius:10px; margin:18px 0 28px;">
+    <div id="interviewProgress" style="height:7px; width:20%; background:#45d9ff; border-radius:10px;"></div>
+  </div>
+
+  <h2 style="margin-bottom:16px;">Your Interview</h2>
+  <p id="interviewQuestion" style="font-size:20px; line-height:1.6; margin-bottom:20px;">
+    Tell me about yourself.
+  </p>
+
+  <label for="interviewAnswer" style="display:block; margin-bottom:10px;">Your answer</label>
+  <textarea id="interviewAnswer" rows="7" placeholder="Type your answer here..." style="width:100%; padding:14px; border-radius:10px; border:1px solid #243149; background:#080b14; color:#f1f5ff; resize:vertical;"></textarea>
+
+  <p id="answerMessage" style="margin-top:12px; color:#95a2ba;"></p>
+  
+<div id="answerEvaluation" style="display:none; margin-top:18px; padding:18px; border:1px solid #243149; border-radius:12px; background:#0b111e; line-height:1.8;">
+</div>
+
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:22px;">
+   <button type="button" id="previousQuestion" class="btn">Previous</button>
+    <button type="button" id="skipQuestion" class="btn">Skip</button>
+    <button type="button" id="nextQuestion" class="btn btn-primary">Next question →</button>
+    <button type="button" id="endInterview" class="btn">End interview</button>
+  </div>
+</section>
+
+<section id="finalReport" style="display:none; max-width:900px; width:92%; margin:30px auto; padding:28px; background:#101624; border:1px solid #243149; border-radius:18px; color:#f1f5ff;">
+  <h2 style="color:#45d9ff; margin-bottom:12px;">Your Interview Report</h2>
+
+  <p id="overallScore" style="font-size:24px; font-weight:bold; margin-bottom:20px;">
+    Overall Score: Calculating...
+  </p>
+
+  <div id="reportDetails"></div>
+
+  
+<div class="report-actions">
+  <button
+    type="button"
+    class="btn btn-primary"
+    onclick="downloadReportPDF()"
+  >
+    Download Detailed PDF
+  </button>
+
+  <button
+    type="button"
+    class="btn"
+    onclick="location.reload()"
+  >
+    Start New Interview
+  </button>
+</div>
+
+</section>
+<footer>InterviewAI · Practice with purpose. Improve with every answer.</footer>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h2>Review your interview setup</h2>
+    <p id="modalText"></p>
+    <p style="margin-top:12px">This is a frontend preview. The live AI interview, voice processing, and actual scoring require the backend and AI integration.</p>
+    <div class="modal-actions">
+      <button class="btn" id="closeModal">Go back</button>
+      <button class="btn btn-primary" id="confirmSetup">Confirm setup</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const state = {
+  role:"Frontend Developer",
+  level:"Beginner",
+  type:"Technical",
+  language:"English",
+  duration:"20 minutes",
+  persona:"HR Manager",
+  questions:"10",
+  resume:null
+};
+
+function setupGroup(id,key,single=true){
+  const group=document.getElementById(id);
+  group.querySelectorAll("button").forEach(button=>{
+    button.addEventListener("click",()=>{
+      if(single){
+        group.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
+      }
+      button.classList.add("selected");
+      state[key]=button.dataset.value;
+      if(key==="role"){
+        document.getElementById("customRoleWrap").style.display=
+          state.role==="Custom Role"?"block":"none";
+      }
+      updateSummary();
+    });
+  });
+}
+setupGroup("roles","role");
+setupGroup("levels","level");
+setupGroup("types","type");
+setupGroup("languages","language");
+setupGroup("durations","duration");
+setupGroup("personas","persona");
+setupGroup("questionCounts","questions");
+
+document.getElementById("customRole").addEventListener("input",updateSummary);
+
+document.getElementById("resume").addEventListener("change",event=>{
+  const file=event.target.files[0];
+  const name=document.getElementById("fileName");
+  if(!file){state.resume=null;name.textContent="";updateSummary();return;}
+  const validExtension=/\.(pdf|docx)$/i.test(file.name);
+  if(!validExtension || file.size>5*1024*1024){
+    alert("Please select a PDF or DOCX file up to 5 MB.");
+    event.target.value="";
+    state.resume=null;
+    name.textContent="";
+    updateSummary();
+    return;
+  }
+  state.resume=file;
+  name.textContent="Selected: "+file.name;
+  updateSummary();
+});
+
+function actualRole(){
+  if(state.role==="Custom Role"){
+    return document.getElementById("customRole").value.trim()||"Custom role (not specified)";
+  }
+  return state.role;
+}
+function updateSummary(){
+  const role=actualRole();
+  document.getElementById("sumRole").textContent=role;
+  document.getElementById("sumLevel").textContent=state.level;
+  document.getElementById("sumType").textContent=state.type;
+  document.getElementById("sumLanguage").textContent=state.language;
+  document.getElementById("sumDuration").textContent=state.duration;
+  document.getElementById("sumPersona").textContent=state.persona;
+  document.getElementById("sumQuestions").textContent=state.questions;
+  document.getElementById("sumResume").textContent=state.resume?"Selected":"Not added";
+  document.getElementById("previewTitle").textContent=role;
+  document.getElementById("previewDescription").textContent=
+    state.type+" interview · "+state.level+" level. Language: "+state.language+".";
+}
+
+document.getElementById("topStart").addEventListener("click",()=>{
+  document.getElementById("setup").scrollIntoView({behavior:"smooth"});
+});
+
+const modal=document.getElementById("modal");
+document.getElementById("startInterview").addEventListener("click",()=>{
+  if(state.role==="Custom Role"&&!document.getElementById("customRole").value.trim()){
+    alert("Please enter your custom job role first.");
+    document.getElementById("customRole").focus();
+    return;
+  }
+  const role=actualRole();
+  document.getElementById("modalText").textContent=
+    "Role: "+role+" · Level: "+state.level+" · Type: "+state.type+
+    " · Language: "+state.language+" · Duration: "+state.duration+
+    " · AI persona: "+state.persona+" · Questions: "+state.questions+
+    (state.resume?" · Resume: "+state.resume.name:" · No resume selected")+".";
+  modal.classList.add("open");
+});
+document.getElementById("closeModal").addEventListener("click",()=>{
+  modal.classList.remove("open");
+});
+ 
+modal.addEventListener("click",event=>{
+  if(event.target===modal)modal.classList.remove("open");
+});
+
+updateSummary();
+
+ let interviewQuestions = [];
+ let savedEvaluations = [];
+ let followUpQuestions = [];
+let savedFollowUpEvaluations = [];
+
+let currentQuestion = 0;
+let savedAnswers = [];
+let awaitingFollowUp = false;
+let followUpAnswers = [];
+let interviewFinished = false;
+
+let interviewStartTime = null;
+let interviewEndTime = null;
+
+
+ async function generateAIQuestion() {
+  const questionElement = document.getElementById("interviewQuestion");
+  const nextButton = document.getElementById("nextQuestion");
+
+  questionElement.textContent = "AI is generating your question...";
+  nextButton.disabled = true;
+
+  try {
+    const response = await fetch("/api/generate-question", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        role: actualRole(),
+        interviewType: state.type,
+        language: state.language,
+        experience: state.level,
+        previousQuestions: interviewQuestions.filter(Boolean),
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success || !data.question) {
+      throw new Error(data.error || "Question generate nahi hua.");
+    }
+
+    interviewQuestions[currentQuestion] = data.question;
+    questionElement.textContent = data.question;
+  } catch (error) {
+    questionElement.textContent = "Question load nahi hua. Please retry.";
+    document.getElementById("answerMessage").textContent = error.message;
+  } finally {
+    nextButton.disabled = false;
+  }
+} 
+
+let interviewTimerInterval = null;
+let interviewTimeLeft = 0;
+
+function startInterviewTimer() {
+  clearInterval(interviewTimerInterval);
+
+  interviewTimeLeft = parseInt(state.duration, 10) * 60;
+
+  const timerElement = document.getElementById("interviewTimer");
+
+  function updateTimerDisplay() {
+    const minutes = Math.floor(interviewTimeLeft / 60);
+    const seconds = interviewTimeLeft % 60;
+
+    timerElement.textContent =
+      "Time: " +
+      String(minutes).padStart(2, "0") +
+      ":" +
+      String(seconds).padStart(2, "0");
+  }
+
+  updateTimerDisplay();
+
+  interviewTimerInterval = setInterval(() => {
+    interviewTimeLeft--;
+    updateTimerDisplay();
+
+    if (interviewTimeLeft <= 0) {
+      clearInterval(interviewTimerInterval);
+      interviewTimerInterval = null;
+      alert("Interview time is over!");
+      finishInterview();
+    }
+  }, 1000);
+}
+
+function showInterviewQuestion() {
+  document.getElementById("answerEvaluation").style.display = "none";
+document.getElementById("answerEvaluation").replaceChildren();
+document.getElementById("answerMessage").textContent = "";
+  document.getElementById("interviewRole").textContent = actualRole();
+  document.getElementById("previousQuestion").style.display =
+  currentQuestion === 0 ? "none" : "inline-block";
+
+  document.getElementById("questionCounter").textContent =
+    "Question " + (currentQuestion + 1) + " of " + state.questions;
+
+  document.getElementById("interviewQuestion").textContent =
+    interviewQuestions[currentQuestion] || "Loading question...";
+
+  document.getElementById("interviewProgress").style.width =
+    ((currentQuestion + 1) / Number(state.questions) * 100) + "%";
+
+  document.getElementById("interviewAnswer").value =
+    savedAnswers[currentQuestion] || "";
+
+  document.getElementById("answerMessage").textContent = "";
+  
+}
+
+function finishInterview() {
+    if (interviewFinished) return;
+  interviewFinished = true;
+
+  clearInterval(interviewTimerInterval);
+  interviewTimerInterval = null;
+  interviewEndTime = new Date();
+  savedAnswers[currentQuestion] =
+    document.getElementById("interviewAnswer").value.trim();
+
+
+  document.getElementById("interviewScreen").style.display = "none";
+  document.getElementById("setup").style.display = "block";
+
+   const report = document.getElementById("finalReport");
+const reportDetails = document.getElementById("reportDetails");
+
+const evaluations = savedEvaluations.filter(Boolean);
+const totalQuestions = Number(state.questions) || 0;
+
+const attemptedQuestions = interviewQuestions.filter(
+  (question, index) =>
+    question &&
+    savedAnswers[index] &&
+    savedAnswers[index].trim().length > 0
+).length;
+
+const skippedQuestions = Math.max(
+  0,
+  totalQuestions - attemptedQuestions
+);
+
+const correctQuestions = evaluations.filter(
+  item => item.status === "Correct"
+).length;
+
+const partiallyCorrectQuestions = evaluations.filter(
+  item => item.status === "Partially Correct"
+).length;
+
+const incorrectQuestions = evaluations.filter(
+  item => item.status === "Incorrect"
+).length;
+const totalInterviewSeconds = interviewStartTime
+  ? Math.floor(
+      ((interviewEndTime || new Date()).getTime() -
+        interviewStartTime.getTime()) / 1000
+    )
+  : 0;
+
+const totalInterviewMinutes = Math.floor(totalInterviewSeconds / 60);
+const remainingSeconds = totalInterviewSeconds % 60;
+
+const evaluatedQuestionCount = evaluations.length;
+
+ const averageSecondsPerQuestion = totalQuestions > 0
+  ? Math.round(totalInterviewSeconds / totalQuestions)
+  : 0;
+
+ const maxMarksPerQuestion = 10;
+
+const totalScore = interviewQuestions.reduce(
+  (sum, question, index) => {
+    if (!question) return sum;
+
+    const evaluation = savedEvaluations[index];
+
+    return sum + (
+      evaluation ? (Number(evaluation.score) || 0) : 0
+    );
+  },
+  0
+);
+
+const maxScore = totalQuestions * maxMarksPerQuestion;
+
+const overallScore = maxScore
+  ? Math.round((totalScore / maxScore) * 100)
+  : 0;
+
+document.getElementById("overallScore").textContent =
+  "Overall Score: " + overallScore + "/100";
+
+reportDetails.replaceChildren();
+const timingSummary = document.createElement("p");
+
+timingSummary.style.cssText =
+  "margin:12px 0;padding:14px;border:1px solid #243149;border-radius:10px;line-height:1.8;";
+
+timingSummary.textContent =
+  "Total interview time: " +
+  totalInterviewMinutes +
+  " min " +
+  remainingSeconds +
+  " sec | Average time per evaluated question: " +
+  Math.floor(averageSecondsPerQuestion / 60) +
+  " min " +
+  (averageSecondsPerQuestion % 60) +
+  " sec | Evaluated questions: " +
+  evaluatedQuestionCount;
+
+reportDetails.appendChild(timingSummary);
+
+const summary = document.createElement("p");
+summary.textContent =
+  "Answered questions: " +
+  savedAnswers.filter(answer => answer && answer.trim()).length +
+  " | Evaluated questions: " + evaluations.length;
+
+reportDetails.appendChild(summary);
+const questionStats = document.createElement("div");
+
+questionStats.style.cssText =
+  "margin-top:12px;padding:16px;border:1px solid #243149;border-radius:12px;line-height:1.8;";
+
+questionStats.innerHTML =
+  "<h3>Question Summary</h3>" +
+  "<p>Total questions: " + totalQuestions + "</p>" +
+  "<p>Attempted: " + attemptedQuestions + "/" + totalQuestions + "</p>" +
+  "<p>Skipped: " + skippedQuestions + "</p>" +
+  "<p>Correct: " + correctQuestions + "</p>" +
+  "<p>Partially correct: " + partiallyCorrectQuestions + "</p>" +
+  "<p>Incorrect: " + incorrectQuestions + "</p>";
+
+reportDetails.appendChild(questionStats);
+const followUpsAsked = followUpQuestions.filter(
+  question => question && question.trim()
+).length;
+
+const followUpsAnswered = followUpQuestions.filter(
+  (question, index) =>
+    question &&
+    followUpAnswers[index] &&
+    followUpAnswers[index].trim()
+).length;
+
+const followUpStats = document.createElement("div");
+
+followUpStats.style.cssText =
+  "margin-top:12px;padding:16px;border:1px solid #243149;border-radius:12px;line-height:1.8;";
+
+followUpStats.innerHTML =
+  "<h3>Follow-up Summary</h3>" +
+  "<p>Follow-up questions asked: " + followUpsAsked + "</p>" +
+  "<p>Follow-up questions answered: " + followUpsAnswered + "</p>" +
+  "<p>Follow-up questions unanswered: " +
+  (followUpsAsked - followUpsAnswered) + "</p>";
+
+reportDetails.appendChild(followUpStats);
+const improvementSummary = document.createElement("div");
+
+improvementSummary.style.cssText =
+  "margin-top:18px;padding:16px;border:1px solid #243149;border-radius:12px;line-height:1.8;";
+
+const allWeaknesses = evaluations.flatMap(item =>
+  Array.isArray(item.weaknesses)
+    ? item.weaknesses
+    : item.weaknesses
+      ? [item.weaknesses]
+      : []
+);
+
+const uniqueWeaknesses = [...new Set(allWeaknesses)];
+
+improvementSummary.innerHTML =
+  "<h3>Major Improvement Areas</h3>" +
+  (uniqueWeaknesses.length
+    ? "<ul>" +
+      uniqueWeaknesses.map(item => "<li></li>").join("") +
+      "</ul>"
+    : "<p>No specific weaknesses recorded.</p>");
+
+const weaknessList = improvementSummary.querySelectorAll("li");
+uniqueWeaknesses.forEach((item, index) => {
+  weaknessList[index].textContent = item;
+});
+// Keep improvement points neatly inside the box
+improvementSummary.style.boxSizing = "border-box";
+improvementSummary.style.padding = "20px 24px";
+improvementSummary.style.overflowWrap = "anywhere";
+
+const weaknessUl = improvementSummary.querySelector("ul");
+
+if (weaknessUl) {
+  weaknessUl.style.paddingLeft = "24px";
+  weaknessUl.style.margin = "12px 0 0";
+  weaknessUl.style.listStylePosition = "outside";
+}
+
+improvementSummary.querySelectorAll("li").forEach(item => {
+  item.style.paddingLeft = "4px";
+  item.style.marginBottom = "8px";
+  item.style.lineHeight = "1.7";
+});
+
+reportDetails.appendChild(improvementSummary);
+ 
+const learningPlan = document.createElement("div");
+
+learningPlan.style.cssText = [
+  "margin-top:20px",
+  "padding:24px",
+  "box-sizing:border-box",
+  "width:100%",
+  "max-width:100%",
+  "border:1px solid #243149",
+  "border-radius:12px",
+  "line-height:1.7",
+  "overflow-wrap:anywhere",
+  "break-inside:auto"
+].join(";");
+
+const planHeading = document.createElement("h3");
+planHeading.textContent = "Your 7-Day Smart Learning Plan";
+planHeading.style.cssText =
+  "margin:0 0 8px;font-size:20px;line-height:1.4;";
+
+learningPlan.appendChild(planHeading);
+
+const planIntro = document.createElement("p");
+planIntro.textContent =
+  "Priorities are based on your recorded answers and AI evaluations. Topics without enough evidence are not labelled weak.";
+planIntro.style.cssText =
+  "margin:0 0 18px;color:#95a2ba;font-size:13px;";
+
+learningPlan.appendChild(planIntro);
+
+// Keep original question indexes so missing evaluations
+// do not shift answers or follow-up evaluations.
+const performanceRows = [];
+
+interviewQuestions.forEach((question, index) => {
+  const evaluation = savedEvaluations[index];
+
+  if (!question || !evaluation) return;
+
+  const score = Number(evaluation.score);
+  const maxScore = Number(evaluation.maxScore);
+
+  const ratio =
+    Number.isFinite(score) &&
+    Number.isFinite(maxScore) &&
+    maxScore > 0
+      ? Math.max(0, Math.min(1, score / maxScore))
+      : null;
+
+  const weaknesses = Array.isArray(evaluation.weaknesses)
+    ? evaluation.weaknesses
+    : evaluation.weaknesses
+      ? [evaluation.weaknesses]
+      : [];
+
+  const followUpEvaluation =
+    savedFollowUpEvaluations[index];
+
+  const followUpQuestion = followUpQuestions[index];
+  const followUpWeaknesses = followUpEvaluation
+    ? Array.isArray(followUpEvaluation.weaknesses)
+      ? followUpEvaluation.weaknesses
+      : followUpEvaluation.weaknesses
+        ? [followUpEvaluation.weaknesses]
+        : []
+    : [];
+
+  performanceRows.push({
+    questionIndex: index,
+    question,
+    evaluation,
+    ratio,
+    weaknesses,
+    followUpQuestion,
+    followUpEvaluation,
+    followUpWeaknesses
+  });
+});
+
+// Infer a tentative topic from the actual question text.
+// This is a fallback until the evaluator returns an explicit topic.
+function inferPlanTopic(question) {
+  const text = String(question || "").toLowerCase();
+
+  const rules = [
+    ["SQL and Databases", /\bsql\b|database|query|join\b|normalization|indexing|transaction/],
+    ["REST APIs and HTTP", /\bapi\b|rest\b|http\b|status code|endpoint|request|response/],
+    ["Authentication and Security", /authenticat|authoriz|security|jwt|token|password|encryption/],
+    ["JavaScript Fundamentals", /javascript|closure|promise|async|await|event loop|hoisting/],
+    ["HTML and CSS", /\bhtml\b|\bcss\b|flexbox|grid layout|responsive design|semantic markup/],
+    ["React", /\breact\b|jsx|hooks|usestate|useeffect|component|props|state management/],
+    ["Python", /\bpython\b|list comprehension|dictionary|decorator|generator|pip\b/],
+    ["Java and OOP", /\bjava\b|inheritance|polymorphism|encapsulation|abstraction|interface/],
+    ["Data Analysis", /data analysis|data cleaning|visualization|pandas|spreadsheet|dashboard/],
+    ["Problem Solving and Algorithms", /algorithm|complexity|big o|data structure|recursion|sorting|searching/],
+    ["Behavioral and HR", /teamwork|conflict|leadership|strengths and weaknesses|tell me about yourself|failure|challenge/],
+    ["System Design", /system design|scalability|load balanc|caching|microservice|architecture/]
+  ];
+
+  const matches = rules.filter(([, pattern]) => pattern.test(text));
+
+  return matches.length === 1 ? matches[0][0] : null;
+}
+
+const topicStats = new Map();
+
+function recordTopicEvidence(topic, row, evaluation, ratio, weaknesses) {
+  if (!topic) return;
+
+  if (!topicStats.has(topic)) {
+    topicStats.set(topic, {
+      topic,
+      assessed: 0,
+      scored: 0,
+      scoreTotal: 0,
+      weaknessNotes: [],
+      evidence: [],
+      questionIndexes: new Set()
+    });
+  }
+
+  const stat = topicStats.get(topic);
+
+  if (!stat.questionIndexes.has(row.questionIndex)) {
+    stat.questionIndexes.add(row.questionIndex);
+    stat.assessed++;
+  }
+
+  if (ratio !== null) {
+    stat.scored++;
+    stat.scoreTotal += ratio;
+  }
+
+  weaknesses.forEach(weakness => {
+    if (weakness && !stat.weaknessNotes.includes(weakness)) {
+      stat.weaknessNotes.push(String(weakness));
+    }
+  });
+
+  if (row.question && !stat.evidence.includes(row.question)) {
+    stat.evidence.push(row.question);
+  }
+}
+
+performanceRows.forEach(row => {
+  const topic = inferPlanTopic(row.question);
+
+  recordTopicEvidence(
+    topic,
+    row,
+    row.evaluation,
+    row.ratio,
+    row.weaknesses
+  );
+
+  if (row.followUpEvaluation && row.followUpQuestion) {
+    const followUpTopic = inferPlanTopic(row.followUpQuestion);
+
+    recordTopicEvidence(
+      followUpTopic,
+      row,
+      row.followUpEvaluation,
+      (() => {
+        const score = Number(row.followUpEvaluation.score);
+        const max = Number(row.followUpEvaluation.maxScore);
+
+        return Number.isFinite(score) &&
+          Number.isFinite(max) && max > 0
+          ? Math.max(0, Math.min(1, score / max))
+          : null;
+      })(),
+      row.followUpWeaknesses
+    );
+  }
+});
+
+const rankedTopics = [...topicStats.values()]
+  .map(topic => ({
+    ...topic,
+    average: topic.scored
+      ? topic.scoreTotal / topic.scored
+      : null
+  }))
+  .sort((a, b) => {
+    const aPriority = a.average === null
+      ? -1
+      : 1 - a.average;
+    const bPriority = b.average === null
+      ? -1
+      : 1 - b.average;
+
+    return bPriority - aPriority;
+  });
+
+function makePlanCard(day, title, priority, evidence, tasks, goal) {
+  const card = document.createElement("div");
+
+  card.style.cssText = [
+    "margin-top:14px",
+    "padding:16px",
+    "box-sizing:border-box",
+    "width:100%",
+    "max-width:100%",
+    "border:1px solid #243149",
+    "border-radius:10px",
+    "break-inside:avoid",
+    "overflow-wrap:anywhere"
+  ].join(";");
+
+  const heading = document.createElement("h4");
+  heading.textContent = `Day ${day} — ${title}`;
+  heading.style.cssText =
+    "margin:0 0 8px;line-height:1.5;";
+
+  card.appendChild(heading);
+
+  const priorityLine = document.createElement("p");
+  priorityLine.textContent = `Priority: ${priority}`;
+  priorityLine.style.cssText =
+    "margin:0 0 8px;font-weight:700;";
+
+  card.appendChild(priorityLine);
+
+  const evidenceLine = document.createElement("p");
+  evidenceLine.textContent = `Why this topic: ${evidence}`;
+  evidenceLine.style.cssText = "margin:0 0 10px;";
+
+  card.appendChild(evidenceLine);
+
+  const list = document.createElement("ul");
+  list.style.cssText =
+    "padding-left:24px;margin:8px 0 12px;list-style-position:outside;";
+
+  tasks.forEach(task => {
+    const item = document.createElement("li");
+    item.textContent = task;
+    item.style.cssText =
+      "padding-left:4px;margin-bottom:7px;line-height:1.7;";
+
+    list.appendChild(item);
+  });
+
+  card.appendChild(list);
+
+  const goalLine = document.createElement("p");
+  goalLine.textContent = `Goal: ${goal}`;
+  goalLine.style.cssText = "margin:0;font-weight:600;";
+
+  card.appendChild(goalLine);
+
+  learningPlan.appendChild(card);
+}
+
+const weakTopics = rankedTopics.filter(
+  topic => topic.average !== null && topic.average < 0.7
+);
+
+const unassessedTopics = rankedTopics.filter(
+  topic => topic.average === null
+);
+
+const studyTopics = weakTopics.length
+  ? weakTopics
+  : rankedTopics.filter(topic => topic.average !== null);
+
+const dailyTasks = [
+  ["Review the key concepts and write a short summary.",
+   "Explain the concept aloud without looking at notes."],
+  ["Work through guided examples.",
+   "Answer 3 targeted practice questions."],
+  ["Solve practical problems using the topic.",
+   "Write down and correct each mistake."],
+  ["Practice interview-style scenarios.",
+   "Explain why your answer is correct."],
+  ["Complete a role-specific practical task.",
+   "Review the result against a checklist."],
+  ["Attempt fresh questions without notes.",
+   "Revisit any mistakes and explain the correction."],
+  ["Take a short reassessment with fresh questions.",
+   "Compare results with the original evaluation."]
+];
+
+const dailyMinutes = [30, 40, 45, 45, 50, 40, 30];
+
+for (let day = 1; day <= 7; day++) {
+  const topic = studyTopics.length
+    ? studyTopics[(day - 1) % studyTopics.length]
+    : null;
+
+  const title = day === 7
+    ? "Reassessment and next steps"
+    : topic
+      ? topic.topic
+      : "Evidence gathering and fundamentals";
+
+  const priority = day === 7
+    ? "Reassessment"
+    : topic
+      ? topic.average < 0.5
+        ? "High"
+        : topic.average < 0.7
+          ? "Medium"
+          : "Revision"
+      : "Not assessed";
+
+  const evidence = day === 7
+    ? "Use fresh questions to check improvement; do not assume progress without a new evaluation."
+    : topic
+      ? `Based on ${topic.assessed} question(s) mapped to this topic. ${
+          topic.average === null
+            ? "There is not enough score evidence to judge performance."
+            : `Recorded average score: ${Math.round(topic.average * 100)}%.`
+        } ${
+          topic.weaknessNotes.length
+            ? "Recorded feedback: " + topic.weaknessNotes.slice(0, 2).join("; ")
+            : "No specific weakness was recorded."
+        }`
+      : "No reliably identified topic is available from the recorded question text.";
+
+  const tasks = day === 7
+    ? [
+        "Answer fresh questions on the topics studied this week.",
+        "Compare the new scores and feedback with the original results.",
+        "Keep any topic with insufficient evidence marked as not assessed."
+      ]
+    : topic
+      ? [
+          `Study the key concepts in ${topic.topic}.`,
+          ...dailyTasks[day - 1]
+        ]
+      : [
+          "Review the interview questions and identify what information is missing.",
+          ...dailyTasks[day - 1]
+        ];
+
+  const goal = day === 7
+    ? "Record new scores and list the topics that still need practice."
+    : topic && topic.average !== null && topic.average >= 0.7
+      ? "Maintain understanding and explain the topic clearly in a fresh practice answer."
+      : "Complete the listed tasks and record practice results; do not treat the goal as achieved until checked.";
+
+  makePlanCard(
+    day,
+    `${title} · ${dailyMinutes[day - 1]} minutes`,
+    priority,
+    evidence,
+    tasks,
+    goal
+  );
+}
+
+if (unassessedTopics.length) {
+  const note = document.createElement("p");
+  note.textContent =
+    "Some mapped topics lack usable scores. Their performance is not classified as strong or weak until sufficient evaluation evidence is available.";
+  note.style.cssText =
+    "margin-top:14px;font-size:13px;color:#95a2ba;";
+
+  learningPlan.appendChild(note);
+}
+
+if (!performanceRows.length) {
+  const note = document.createElement("p");
+  note.textContent =
+    "No completed question evaluations were found. This plan is a provisional study structure, not a performance-based diagnosis.";
+  note.style.cssText = "margin-top:14px;";
+
+  learningPlan.appendChild(note);
+}
+
+reportDetails.appendChild(learningPlan);
+
+(async function generatePersonalizedPlan() {
+  const loading = document.createElement("p");
+  loading.textContent =
+    "Generating your personalized 7-day learning plan...";
+  loading.style.cssText = "margin-top:14px;color:#95a2ba;";
+  learningPlan.appendChild(loading);
+
+  const evaluationData = interviewQuestions
+    .map((question, index) => {
+      const evaluation = savedEvaluations[index];
+
+      if (!question || !evaluation) return null;
+
+      return {
+        question,
+        answer: savedAnswers[index] || "",
+        evaluation
+      };
+    })
+    .filter(Boolean);
+
+  const followUpData = followUpQuestions
+    .map((question, index) => {
+      if (!question) return null;
+
+      return {
+        question,
+        answer: followUpAnswers[index] || "",
+        evaluation: savedFollowUpEvaluations[index] || null
+      };
+    })
+    .filter(Boolean);
+
+  try {
+    if (!evaluationData.length) {
+      throw new Error(
+        "No completed AI evaluations are available for a personalized plan."
+      );
+    }
+
+    const response = await fetch("/api/generate-learning-plan", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        role: actualRole(),
+        experience: state.level,
+        interviewType: state.type,
+        language: state.language,
+        evaluations: evaluationData,
+        followUps: followUpData
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success || !data.plan) {
+      throw new Error(
+        data.error || "Personalized plan generation failed."
+      );
+    }
+
+    const plan = data.plan;
+
+    // Keep the existing heading and introduction.
+    learningPlan.replaceChildren(planHeading, planIntro);
+
+    planHeading.textContent =
+      plan.title || "Your 7-Day Smart Learning Plan";
+
+    planIntro.textContent = plan.summary || "";
+
+    function addPlanText(parent, label, value) {
+      if (!value) return;
+
+      const p = document.createElement("p");
+      p.style.cssText = "margin:8px 0;overflow-wrap:anywhere;";
+      p.textContent = label ? label + ": " + value : value;
+      parent.appendChild(p);
+    }
+
+    function addPlanList(parent, heading, items) {
+      if (!Array.isArray(items) || !items.length) return;
+
+      const title = document.createElement("h5");
+      title.textContent = heading;
+      title.style.cssText = "margin:12px 0 6px;";
+      parent.appendChild(title);
+
+      const list = document.createElement("ul");
+      list.style.cssText =
+        "padding-left:24px;margin:6px 0 12px;overflow-wrap:anywhere;";
+
+      items.forEach(text => {
+        const li = document.createElement("li");
+        li.textContent = String(text);
+        li.style.marginBottom = "7px";
+        list.appendChild(li);
+      });
+
+      parent.appendChild(list);
+    }
+
+    (plan.days || []).forEach(day => {
+      const card = document.createElement("div");
+
+      card.style.cssText = [
+        "margin-top:14px",
+        "padding:16px",
+        "box-sizing:border-box",
+        "width:100%",
+        "border:1px solid #243149",
+        "border-radius:10px",
+        "overflow-wrap:anywhere",
+        "line-height:1.7"
+      ].join(";");
+
+      const heading = document.createElement("h4");
+      heading.textContent =
+        "Day " + day.day + " — " + day.topic +
+        " · " + day.minutes + " minutes";
+      heading.style.margin = "0 0 10px";
+      card.appendChild(heading);
+
+      addPlanText(card, "Priority", day.priority);
+      addPlanList(card, "Subtopics", day.subtopics);
+      addPlanText(card, "Why this topic", day.evidence);
+      addPlanText(card, "How to answer", day.answerStrategy);
+      addPlanList(card, "Tasks", day.tasks);
+      addPlanList(card, "Practice questions", day.practiceQuestions);
+      addPlanText(card, "Daily goal", day.goal);
+
+      if (Array.isArray(day.references) && day.references.length) {
+        const refHeading = document.createElement("h5");
+        refHeading.textContent = "Suggested references";
+        refHeading.style.margin = "12px 0 6px";
+        card.appendChild(refHeading);
+
+        day.references.forEach(ref => {
+          const url = String(ref.url || "");
+
+          // Only create clickable links for HTTP(S) URLs.
+          if (!/^https?:\/\//i.test(url)) {
+            addPlanText(card, "", ref.title || "Reference");
+            return;
+          }
+
+          const link = document.createElement("a");
+          link.href = url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = ref.title || url;
+          link.style.cssText =
+            "display:block;margin:6px 0;overflow-wrap:anywhere;";
+
+          card.appendChild(link);
+        });
+      }
+
+      learningPlan.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("Personalized plan error:", error);
+
+    loading.textContent =
+      "Personalized plan could not be generated: " + error.message;
+    loading.style.color = "#fca5a5";
+  }
+})();
+
+
+evaluations.forEach((item, index) => {
+  const card = document.createElement("div");
+  card.style.cssText =
+    "margin-top:18px;padding:16px;border:1px solid #243149;border-radius:12px;";
+
+  const heading = document.createElement("h3");
+  heading.textContent =
+    "Question " + (index + 1) + " — " +
+    (item.status || "Evaluated") + " — " +
+    (item.score ?? 0) + "/" + (item.maxScore || 10);
+
+  const question = document.createElement("p");
+  question.style.marginTop = "10px";
+  question.textContent =
+    interviewQuestions[index] || "Question not available.";
+
+  const answer = document.createElement("p");
+  answer.style.cssText = "margin-top:8px;white-space:pre-wrap;";
+  answer.textContent =
+    "Your answer: " + (savedAnswers[index] || "No answer provided.");
+
+  const feedback = document.createElement("p");
+  feedback.style.cssText = "margin-top:8px;white-space:pre-wrap;";
+  feedback.textContent =
+    "Strength: " + (item.whatWasGood || "Not available") +
+    "\nWeaknesses: " +
+    (Array.isArray(item.weaknesses)
+      ? item.weaknesses.join(", ")
+      : item.weaknesses || "Not available") +
+    "\nBetter answer: " + (item.betterAnswer || "Not available") +
+    "\nImprovement tip: " + (item.improvementTip || "Not available");
+
+  const followUpQuestion = followUpQuestions[index];
+const followUpAnswer = followUpAnswers[index];
+const followUpEvaluation = savedFollowUpEvaluations[index];
+
+if (followUpQuestion) {
+  const followUpHeading = document.createElement("h4");
+  followUpHeading.textContent = "Follow-up for Question " + (index + 1);
+  followUpHeading.style.marginTop = "16px";
+
+  const followUpQuestionText = document.createElement("p");
+  followUpQuestionText.textContent = followUpQuestion;
+
+  const followUpAnswerText = document.createElement("p");
+  followUpAnswerText.style.whiteSpace = "pre-wrap";
+  followUpAnswerText.textContent =
+    "Your follow-up answer: " + (followUpAnswer || "No answer provided.");
+
+  card.append(
+    followUpHeading,
+    followUpQuestionText,
+    followUpAnswerText
+  );
+
+  if (followUpEvaluation) {
+    const followUpScore = document.createElement("p");
+    followUpScore.textContent =
+      "Follow-up score: " +
+      (followUpEvaluation.score ?? 0) + "/" +
+      (followUpEvaluation.maxScore || 10) +
+      " — " + (followUpEvaluation.status || "Evaluated");
+
+    const followUpFeedback = document.createElement("p");
+    followUpFeedback.style.whiteSpace = "pre-wrap";
+    followUpFeedback.textContent =
+      "Strength: " + (followUpEvaluation.whatWasGood || "Not available") +
+      "\nWeaknesses: " +
+      (Array.isArray(followUpEvaluation.weaknesses)
+        ? followUpEvaluation.weaknesses.join(", ")
+        : followUpEvaluation.weaknesses || "Not available") +
+      "\nBetter answer: " +
+      (followUpEvaluation.betterAnswer || "Not available") +
+      "\nImprovement tip: " +
+      (followUpEvaluation.improvementTip || "Not available");
+
+    card.append(followUpScore, followUpFeedback);
+  }
+}
+    card.append(heading, question, answer, feedback);
+  reportDetails.appendChild(card);
+});
+
+report.style.display = "block";
+document.getElementById("setup").style.display = "none";
+report.scrollIntoView({ behavior: "smooth" });
+}
+
+document.getElementById("confirmSetup").addEventListener("click", () => {
+  modal.classList.remove("open");
+  currentQuestion = 0;
+  savedAnswers = [];
+  savedEvaluations = [];
+followUpQuestions = [];
+savedFollowUpEvaluations = [];
+
+  interviewFinished = false;
+  interviewStartTime = new Date();
+interviewEndTime = null;
+
+  document.getElementById("setup").style.display = "none";
+  document.getElementById("interviewScreen").style.display = "block";
+
+  showInterviewQuestion();
+  startInterviewTimer();
+  generateAIQuestion();
+  document.getElementById("interviewScreen").scrollIntoView({
+    behavior: "smooth"
+  });
+});
+
+ 
+
+document.getElementById("previousQuestion").addEventListener("click", () => {
+  if (currentQuestion > 0) {
+    savedAnswers[currentQuestion] =
+      document.getElementById("interviewAnswer").value.trim();
+
+    currentQuestion--;
+    showInterviewQuestion();
+  }
+});
+
+
+
+function showAnswerEvaluation(data) {
+  const box = document.getElementById("answerEvaluation");
+  box.replaceChildren();
+  box.style.display = "block";
+  box.replaceChildren();
+
+  function addSection(title, content) {
+    const heading = document.createElement("h3");
+    heading.textContent = title;
+    heading.style.marginTop = "12px";
+
+    const text = document.createElement("p");
+    text.style.whiteSpace = "pre-line";
+    text.textContent = Array.isArray(content)
+      ? "• " + content.join("\n• ")
+      : String(content || "No feedback available.");
+
+    box.appendChild(heading);
+    box.appendChild(text);
+  }
+
+  const title = document.createElement("h3");
+  title.textContent =
+    "Answer Result: " + data.status + " — " +
+    data.score + "/" + data.maxScore;
+
+  box.appendChild(title);
+  addSection("What you did well", data.whatWasGood);
+  addSection("Weaknesses", data.weaknesses);
+  addSection("Better answer", data.betterAnswer);
+  addSection("Improvement tip", data.improvementTip);
+}
+
+document.getElementById("nextQuestion").addEventListener("click", async () => {
+  const answer = document.getElementById("interviewAnswer").value.trim();
+  const questionElement = document.getElementById("interviewQuestion");
+  const nextButton = document.getElementById("nextQuestion");
+  const answerMessage = document.getElementById("answerMessage");
+
+  nextButton.disabled = true;
+
+  try {
+    if (awaitingFollowUp) {
+      followUpAnswers[currentQuestion] = answer;
+      if (answer) {
+  answerMessage.textContent = "AI is evaluating your follow-up answer...";
+
+  const followUpResponse = await fetch("/api/check-answer", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      role: actualRole(),
+      question: followUpQuestions[currentQuestion],
+      answer: answer,
+      language: state.language
+    })
+  });
+
+  const followUpEvaluation = await followUpResponse.json();
+
+  if (!followUpResponse.ok) {
+    throw new Error(
+      followUpEvaluation.error || "Follow-up evaluation failed."
+    );
+  }
+
+  savedFollowUpEvaluations[currentQuestion] = followUpEvaluation;
+}
+      awaitingFollowUp = false;
+    } else {
+      savedAnswers[currentQuestion] = answer;
+
+      if (answer) {
+        answerMessage.textContent = "AI is reviewing your answer...";
+        const checkResponse = await fetch("/api/check-answer", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    role: actualRole(),
+    question: interviewQuestions[currentQuestion],
+    answer: answer,
+    language: state.language
+  })
+});
+
+const evaluation = await checkResponse.json();
+
+if (!checkResponse.ok) {
+  throw new Error(evaluation.error || "Answer checking failed.");
+}
+
+showAnswerEvaluation(evaluation);
+savedEvaluations[currentQuestion] = evaluation;
+
+        const response = await fetch("/api/evaluate-answer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            role: actualRole(),
+            interviewType: state.type,
+            language: state.language,
+            experience: state.level,
+            question: interviewQuestions[currentQuestion],
+            answer: answer
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || "Answer analyze nahi hua.");
+        }
+
+        if (data.shouldFollowUp && data.followUpQuestion) {
+          awaitingFollowUp = true;
+
+          questionElement.textContent =
+            "Follow-up: " + data.followUpQuestion;
+            followUpQuestions[currentQuestion] = data.followUpQuestion;
+
+          document.getElementById("questionCounter").textContent =
+            "Follow-up for Question " + (currentQuestion + 1);
+
+          document.getElementById("interviewAnswer").value = "";
+          answerMessage.textContent =
+            "AI has a follow-up question for you.";
+
+          return;
+        }
+      }
+    }
+
+    answerMessage.textContent = "";
+
+    if (currentQuestion < Number(state.questions) - 1) {
+      currentQuestion++;
+      interviewQuestions[currentQuestion] = "";
+      showInterviewQuestion();
+      await generateAIQuestion();
+    } else {
+      finishInterview();
+    }
+  } catch (error) {
+    answerMessage.textContent = error.message;
+  } finally {
+    nextButton.disabled = false;
+  }
+});
+
+
+ document.getElementById("skipQuestion").addEventListener("click", async () => {
+  savedAnswers[currentQuestion] = "";
+
+  if (currentQuestion < Number(state.questions) - 1) {
+    currentQuestion++;
+    interviewQuestions[currentQuestion] = "";
+    showInterviewQuestion();
+  } else {
+    finishInterview();
+    return;
+  }
+
+  await generateAIQuestion();
+});
+
+document.getElementById("endInterview").addEventListener("click", () => {
+  if (confirm("Are you sure you want to end this interview?")) {
+    finishInterview();
+  }
+});
+function downloadReportPDF() {
+  const report = document.getElementById("finalReport");
+
+  if (!report || report.style.display === "none") {
+    alert("Please finish the interview and generate the report first.");
+    return;
+  }
+
+  window.print();
+}
+</script>
+</body>
+</html>
